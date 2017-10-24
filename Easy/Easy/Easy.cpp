@@ -11,7 +11,8 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
-#define CREATETIME 100
+#define CREATETIME	100
+#define LINESHOW	101
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -22,13 +23,20 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
 		case WM_CREATE :
 		{
-			SetTimer(hwnd, CREATETIME, 5000, NULL);
+			SetTimer(hwnd, CREATETIME, 1000, NULL);
+			SetTimer(hwnd, LINESHOW, 5000, NULL);
 		}break;
 
 		case WM_TIMER:
 		{
 			if (wparam == CREATETIME)
 				SetPixel(hdc, rand() % 400, rand() % 400, RGB(255, 255, 255));
+
+			if (wparam == LINESHOW)
+			{
+				MoveToEx(hdc, rand() % 400, rand() % 400, NULL);
+				LineTo(hdc, rand() % 400, rand() % 400);
+			}
 		}break;
 
 		case WM_PAINT :
@@ -39,6 +47,7 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		case WM_DESTROY :
 		{
 			KillTimer(hwnd, CREATETIME);
+			KillTimer(hwnd, LINESHOW);
 			PostQuitMessage(0);
 		}break;
 	}
