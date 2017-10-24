@@ -11,10 +11,26 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
+#define CREATETIME 100
+
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	HDC hdc;
+	hdc = GetDC(hwnd);
+
 	switch (msg)
 	{
+		case WM_CREATE :
+		{
+			SetTimer(hwnd, CREATETIME, 5000, NULL);
+		}break;
+
+		case WM_TIMER:
+		{
+			if (wparam == CREATETIME)
+				SetPixel(hdc, rand() % 400, rand() % 400, RGB(255, 255, 255));
+		}break;
+
 		case WM_PAINT :
 		{
 
@@ -22,7 +38,8 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case WM_DESTROY :
 		{
-
+			KillTimer(hwnd, CREATETIME);
+			PostQuitMessage(0);
 		}break;
 	}
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
