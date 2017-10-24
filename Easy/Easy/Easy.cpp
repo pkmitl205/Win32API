@@ -13,8 +13,25 @@ Description : Easy.cpp
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	HDC hdc;
+	hdc = GetDC(hwnd);
+
 	switch (msg)
 	{
+		case WM_LBUTTONDOWN:
+		{
+			int x = LOWORD(lparam);
+			int y = HIWORD(lparam);
+			TextOut(hdc, x, y, "LEFT", 4);
+		}break;
+
+		case WM_RBUTTONDOWN:
+		{
+			int x = LOWORD(lparam);
+			int y = HIWORD(lparam);
+			TextOut(hdc, x, y, "RIGHT", 5);
+		}break;
+
 		case WM_PAINT :
 		{
 
