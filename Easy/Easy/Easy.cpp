@@ -10,11 +10,22 @@ Description : Easy.cpp
 
 #include <windows.h>
 #include <windowsx.h>
+#include <stdio.h>
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	HDC hdc;
+	hdc = GetDC(hwnd);
+
 	switch (msg)
 	{
+		case WM_CHAR:
+		{
+			char s[20];
+			sprintf_s(s, "%c (%d)	", (int)wparam, (int)wparam);
+			TextOut(hdc, 10, 50, s, strlen(s));
+		}break;
+
 		case WM_PAINT :
 		{
 
