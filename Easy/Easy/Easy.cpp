@@ -54,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 	winclass.lpszClassName = "MyWin";
 	winclass.lpszMenuName = MAKEINTRESOURCE(IDR_MENU1);
 	winclass.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ICON1));
-	winclass.hCursor = LoadCursor(hinstance, IDC_ARROW);
+	winclass.hCursor = LoadCursor(hinstance, MAKEINTRESOURCE(IDC_CURSOR1));
 	winclass.hIconSm = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ICON1));
 
 	RegisterClassEx(&winclass);
