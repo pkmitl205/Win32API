@@ -10,11 +10,38 @@ Description : Easy.cpp
 
 #include <windows.h>
 #include <windowsx.h>
+#include <stdio.h> 
+
+/*
+============================================================================
+	NOTE : Error Code C4996
+
+	1. Properties(Alt+Enter) 
+	2. C/C++ 
+	3. Preprocessor
+	4. <Edit...>
+	4. Add "_CRT_SECURE_NO_WARNINGS" to PreprocessorDefinitions
+============================================================================
+*/
+
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	HDC hdc;
+	hdc = GetDC(hwnd);
 	switch (msg)
 	{
+		case WM_MOUSEMOVE:
+			{
+				int x = LOWORD(lparam);
+				int y = HIWORD(lparam);
+			
+				{
+					char i[20];
+					sprintf_s(i, "x = %d, y = %d		", x, y);
+					TextOut(hdc, 10, 10, i, strlen(i));
+				}
+			}break;
 		case WM_PAINT :
 		{
 
