@@ -26,6 +26,20 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			TextOut(hdc, 10, 50, s, strlen(s));
 		}break;
 
+		case WM_KEYDOWN:
+		{
+			char s[20];
+			switch (wparam)
+			{
+			case VK_RIGHT: strcpy_s(s, "right		"); break;
+			case VK_LEFT: strcpy_s(s, "left			"); break;
+			case VK_UP: strcpy_s(s, "up				"); break;
+			case VK_DOWN: strcpy_s(s, "down			"); break;
+			default : strcpy_s(s, "					"); break;
+			}
+			TextOut(hdc, 10, 50, s, strlen(s));
+		}break;
+
 		case WM_PAINT :
 		{
 
