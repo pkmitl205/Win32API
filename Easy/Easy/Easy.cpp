@@ -17,15 +17,20 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
-	case WM_PAINT:
-	{
+		case WM_PAINT:
+		{
 
-	}break;
+		}break;
 
-	case WM_DESTROY:
-	{
+		case WM_COMMAND:
+		{
+			if (wparam == ID_FILE_EXIT) DestroyWindow(hwnd);
+		}break;
 
-	}break;
+		case WM_DESTROY:
+		{
+
+		}break;
 	}
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
 }
