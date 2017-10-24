@@ -35,12 +35,13 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			{
 				int x = LOWORD(lparam);
 				int y = HIWORD(lparam);
-			
-				{
-					char i[20];
-					sprintf_s(i, "x = %d, y = %d		", x, y);
-					TextOut(hdc, 10, 10, i, strlen(i));
-				}
+				
+				if(wparam & MK_LBUTTON)
+					{
+						char i[20];
+						sprintf_s(i, "x = %d, y = %d		", x, y);
+						TextOut(hdc, 10, 10, i, strlen(i));
+					}
 			}break;
 		case WM_PAINT :
 		{
