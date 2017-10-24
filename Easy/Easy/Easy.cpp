@@ -17,6 +17,12 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
+		case WM_SIZE:
+		{
+			if (wparam == SIZE_RESTORED)
+				MoveWindow(hwnd, 200, 200, 600, 600, TRUE);
+		}break;
+
 		case WM_PAINT:
 		{
 
