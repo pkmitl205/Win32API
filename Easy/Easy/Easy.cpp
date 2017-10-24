@@ -24,7 +24,12 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case WM_COMMAND:
 		{
-			if (wparam == ID_FILE_EXIT) DestroyWindow(hwnd);
+			switch (wparam)
+			{
+				case ID_FILE_EXIT: DestroyWindow(hwnd);
+					break;
+				case ID_FILE_LOAD: MessageBox(hwnd, "LOAD", "", MB_OK);
+			}
 		}break;
 
 		case WM_DESTROY:
