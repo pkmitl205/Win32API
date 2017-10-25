@@ -13,8 +13,11 @@ Description : Easy.cpp
 
 #include "ddraw.h"
 
+// GlobalVariable
+
 LPDIRECTDRAW7			dd = NULL;
 LPDIRECTDRAWSURFACE7	primary = NULL;
+
 
 LPDIRECTDRAWSURFACE7 GetBmp(LPDIRECTDRAW7 directdraw, LPCTSTR filename)
 {
@@ -73,6 +76,7 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 			primary = NULL;
 			dd->Release();
 			dd = NULL;
+
 			PostQuitMessage(0);
 		}break;
 	}
@@ -121,13 +125,11 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 	dd->CreateSurface(&surf, &primary, NULL);
 
 	// PrimarySurface
-	RECT r;
-	r.left = 1;
-	r.top = 1;
-	r.right = 200;
-	r.bottom = 240;
 
-	primary->Blt(&r, GetBmp(dd, "mario.bmp"), NULL, DDBLT_WAIT, NULL);
+
+	// LocalVariable
+	RECT dest_r;
+	int x = -50;
 
 	while (1)
 	{
@@ -141,6 +143,13 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 		else
 		{
 			// Game Main
+			x += 3;
+			dest_r.left = x;
+			dest_r.top = 100;
+			dest_r.right = dest_r.left + 105;
+			dest_r.bottom = dest_r.top + 115;
+
+			primary->Blt(&dest_r, GetBmp(dd, "mario.bmp"), NULL, DDBLT_WAIT, NULL);
 		}
 	}
 	return(msg.wParam);
