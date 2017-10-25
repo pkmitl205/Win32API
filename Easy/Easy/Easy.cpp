@@ -13,11 +13,18 @@ Description : Easy.cpp
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	HDC hdc = GetDC(hwnd);
+
 	switch (msg)
 	{
 		case WM_PAINT :
 		{
+			TextOut(hdc, 100, 100, "Hello", 5);
 
+			char str[20] = "Direct X";
+			TextOut(hdc, 200, 200, str, strlen(str));
+
+			ReleaseDC(hwnd, hdc);
 		}break;
 
 		case WM_DESTROY :
