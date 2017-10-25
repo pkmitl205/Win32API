@@ -120,6 +120,15 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 
 	dd->CreateSurface(&surf, &primary, NULL);
 
+	// PrimarySurface
+	RECT r;
+	r.left = 1;
+	r.top = 1;
+	r.right = 200;
+	r.bottom = 240;
+
+	primary->Blt(&r, GetBmp(dd, "mario.bmp"), NULL, DDBLT_WAIT, NULL);
+
 	while (1)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
