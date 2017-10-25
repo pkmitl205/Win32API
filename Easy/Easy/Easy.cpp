@@ -79,6 +79,12 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 
 	dd->CreateSurface(&surf, &primary, NULL);
 
+	HDC hdc = GetDC(hwnd);
+	primary->GetDC(&hdc);
+	char s[20]="Hello World";
+	TextOut(hdc, 100, 100, s, strlen(s));
+	primary->ReleaseDC(hdc);
+
 	while (1)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
@@ -88,6 +94,10 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+			else
+			{
+				// Game Main
+			}
 	}
 	return(msg.wParam);
 }
