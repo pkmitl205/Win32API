@@ -11,10 +11,10 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
-void DrawLine(HDC hdc, int x, int y, int z, int w)
+void SetPixelFunc(HDC hdc, int x, int y, int z, int w)
 {
-	MoveToEx(hdc, x, y, NULL);
-	LineTo(hdc, z, w);
+	SetPixel(hdc, x, y, RGB(255,0,0));
+	
 }
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -28,7 +28,7 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		pen1 - CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 		SelectObject(hdc, pen1);
 
-		DrawLine(hdc, 300, 200, 100, 120);
+		SetPixelFunc(hdc, 300, 200, 100, 120);
 
 		DeleteObject(pen1);
 		ReleaseDC(hwnd, hdc);
