@@ -2,7 +2,7 @@
 ============================================================================
 Name        : Easy
 Author      : Pakon Ruchirekserikun
-Version     : 
+Version     :
 Copyright   : Your copyright notice
 Description : Easy.cpp
 ============================================================================
@@ -15,21 +15,22 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	HDC hdc = GetDC(hwnd);
 	HPEN pen1 = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-	
+	HBRUSH brush1 = CreateSolidBrush(RGB(255, 0, 0));
 	switch (msg)
 	{
-		case WM_PAINT :
-		{
-			SelectObject(hdc, pen1);
-				Rectangle(hdc, 100, 100, 300, 200);
-					DeleteObject(pen1);
-						ReleaseDC(hwnd, hdc);
-		}break;
+	case WM_PAINT:
+	{
+		SelectObject(hdc, brush1);
+		Rectangle(hdc, 100, 100, 300, 200);
+		DeleteObject(pen1);
+		DeleteObject(brush1);
+		ReleaseDC(hwnd, hdc);
+	}break;
 
-		case WM_DESTROY :
-		{
-			PostQuitMessage(0);
-		}break;
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+	}break;
 	}
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
 }
