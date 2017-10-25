@@ -16,22 +16,63 @@ Description : Easy.cpp
 LPDIRECTDRAW7			dd = NULL;
 LPDIRECTDRAWSURFACE7	primary = NULL;
 
+LPDIRECTDRAWSURFACE7 GetBmp(LPDIRECTDRAW7 directdraw, LPCTSTR filename)
+{
+	HDC hdc;
+	HBITMAP bit;
+	LPDIRECTDRAWSURFACE7 surf;
+
+	bit = (HBITMAP)LoadImage(NULL, filename, IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+
+	if (!bit) return NULL;
+
+	BITMAP bitmap;
+	GetObject(bit, sizeof(BITMAP), &bitmap);
+	int surf_width = bitmap.bmWidth;
+	int surf_height = bitmap.bmHeight;
+
+	HRESULT result;
+	DDSURFACEDESC2 ddsd;
+	ZeroMemory(&ddsd, sizeof(ddsd));
+	ddsd.dwSize = sizeof(DDSURFACEDESC2);
+	ddsd.dwFlags = DDSD_CAPS | DDSD_WIDTH | DDSD_HEIGHT;
+	ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
+	ddsd.dwWidth = surf_width;
+	ddsd.dwHeight = surf_height;
+	result = directdraw-> CreateSurface(&ddsd, &surf, NULL);
+	
+	if (result != DD_OK)
+	{
+		DeleteObject(bit);
+		return NULL;
+	}
+	else
+	{
+		surf->GetDC(&hdc);
+		HDC bit_dc = CreateCompatibleDC(hdc);
+		SelectObject(bit_dc, bit);
+		BitBlt(hdc, 0, 0, surf_width,surf_height, bit_dc,0,0,SRCCOPY);
+		surf->ReleaseDC(hdc);
+		DeleteObject(bit_dc);
+	}
+	return surf;
+}
+
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
-		case WM_PAINT :
+		case WM_PAINT:
 		{
 
 		}break;
 
-		case WM_DESTROY :
+		case WM_DESTROY:
 		{
 			primary->Release();
 			primary = NULL;
 			dd->Release();
 			dd = NULL;
-
 			PostQuitMessage(0);
 		}break;
 	}
@@ -79,12 +120,6 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 
 	dd->CreateSurface(&surf, &primary, NULL);
 
-	HDC hdc = GetDC(hwnd);
-	primary->GetDC(&hdc);
-	char s[20]="Hello World";
-	TextOut(hdc, 100, 100, s, strlen(s));
-	primary->ReleaseDC(hdc);
-
 	while (1)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
@@ -94,10 +129,10 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-			else
-			{
-				// Game Main
-			}
+		else
+		{
+			// Game Main
+		}
 	}
 	return(msg.wParam);
 }
