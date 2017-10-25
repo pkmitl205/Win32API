@@ -2,7 +2,7 @@
 ============================================================================
 Name        : Easy
 Author      : Pakon Ruchirekserikun
-Version     : 
+Version     :
 Copyright   : Your copyright notice
 Description : Easy.cpp
 ============================================================================
@@ -11,26 +11,33 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
+void DrawLine(HDC hdc, int x, int y, int z, int w)
+{
+	MoveToEx(hdc, x, y, NULL);
+	LineTo(hdc, z, w);
+}
+
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	HDC hdc = GetDC(hwnd);
 	HPEN pen1 = NULL;
 	switch (msg)
 	{
-		case WM_PAINT :
-		{
-			pen1 - CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-			SelectObject(hdc, pen1);
-			MoveToEx(hdc, 100, 100, NULL);
-			LineTo(hdc, 200, 200);
-			DeleteObject(pen1);
-			ReleaseDC(hwnd, hdc);
-		}break;
+	case WM_PAINT:
+	{
+		pen1 - CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+		SelectObject(hdc, pen1);
 
-		case WM_DESTROY :
-		{
-			PostQuitMessage(0);
-		}break;
+		DrawLine(hdc, 300, 200, 100, 120);
+
+		DeleteObject(pen1);
+		ReleaseDC(hwnd, hdc);
+	}break;
+
+	case WM_DESTROY:
+	{
+		PostQuitMessage(0);
+	}break;
 	}
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
 }
@@ -75,3 +82,5 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 	}
 	return(msg.wParam);
 }
+
+
