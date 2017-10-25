@@ -11,6 +11,11 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
+#include "ddraw.h"
+
+LPDIRECTDRAW7			dd = NULL;
+LPDIRECTDRAWSURFACE7	primary = NULL;
+
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
@@ -22,6 +27,11 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 		case WM_DESTROY :
 		{
+			primary->Release();
+			primary = NULL;
+			dd->Release();
+			dd = NULL;
+
 			PostQuitMessage(0);
 		}break;
 	}
@@ -55,6 +65,19 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 
 	ShowWindow(hwnd, ncmdshow);
 	UpdateWindow(hwnd);
+
+	DirectDrawCreateEx(NULL, (LPVOID*)&dd, IID_IDirectDraw7, NULL);
+
+	dd->SetCooperativeLevel(hwnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+	dd->SetDisplayMode(800, 600, 16, 0, 0);
+
+	DDSURFACEDESC2 surf;
+	ZeroMemory(&surf, sizeof(surf));
+	surf.dwSize = sizeof(surf);
+	surf.dwFlags = DDSD_CAPS;
+	surf.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
+
+	dd->CreateSurface(&surf, &primary, NULL);
 
 	while (1)
 	{
