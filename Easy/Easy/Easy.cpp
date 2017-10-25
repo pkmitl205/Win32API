@@ -11,24 +11,30 @@ Description : Easy.cpp
 #include <windows.h>
 #include <windowsx.h>
 
+/*
 void SetPixelFunc(HDC hdc, int x, int y, int z, int w)
 {
-	SetPixel(hdc, x, y, RGB(255,0,0));
-	
+
 }
+*/
+
 
 LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	HDC hdc = GetDC(hwnd);
-	HPEN pen1 = NULL;
+	HPEN pen1 = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));;
 	switch (msg)
 	{
 	case WM_PAINT:
 	{
-		pen1 - CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
 		SelectObject(hdc, pen1);
-
-		SetPixelFunc(hdc, 300, 200, 100, 120);
+		
+		for (int i = 0; i < 1000; i++)
+		{
+			int x = rand() % 400;
+			int y = rand() % 400;
+			SetPixel(hdc, x, y, RGB(rand() %255, rand() % 255, rand() % 255));
+		}
 
 		DeleteObject(pen1);
 		ReleaseDC(hwnd, hdc);
