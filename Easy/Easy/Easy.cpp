@@ -15,16 +15,30 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	HDC hdc = GetDC(hwnd);
 	HPEN pen1 = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
-	HBRUSH brush1 = CreateSolidBrush(RGB(255, 0, 0));
+	HBRUSH brush1 = CreateSolidBrush(RGB(0, 0, 255));
+	
+		RECT rect;
+		rect.left = 10;
+		rect.top = 10;
+		rect.right = 40;
+		rect.bottom = 50;
+
+
+
+
 	switch (msg)
 	{
 	case WM_PAINT:
 	{
+
+		SelectObject(hdc, pen1);
 		SelectObject(hdc, brush1);
-		Rectangle(hdc, 100, 100, 300, 200);
+
+		FillRect(hdc, &rect, (HBRUSH)(COLOR_WINDOW + 2));
+		ReleaseDC(hwnd, hdc);
+
 		DeleteObject(pen1);
 		DeleteObject(brush1);
-		ReleaseDC(hwnd, hdc);
 	}break;
 
 	case WM_DESTROY:
