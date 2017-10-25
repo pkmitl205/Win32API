@@ -20,6 +20,10 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		case WM_PAINT :
 		{
 			pen1 - CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
+			SelectObject(hdc, pen1);
+			MoveToEx(hdc, 100, 100, NULL);
+			LineTo(hdc, 200, 200);
+			DeleteObject(pen1);
 			ReleaseDC(hwnd, hdc);
 		}break;
 
