@@ -19,7 +19,8 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
 		case WM_PAINT :
 		{
-			TextOut(hdc, 100, 100, "Hello", 5);
+			SetTextColor(hdc, RGB(255, 255, 255));
+			SetBkColor(hdc, TRANSPARENT);
 
 			char str[20] = "Direct X";
 			TextOut(hdc, 200, 200, str, strlen(str));
@@ -45,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 	winclass.cbWndExtra = 0;
 	winclass.hInstance = hinstance;
 
-	winclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	winclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	winclass.lpszClassName = "MyWin";
 	winclass.lpszMenuName = NULL;
 	winclass.hIcon = LoadIcon(hinstance, IDI_APPLICATION);
