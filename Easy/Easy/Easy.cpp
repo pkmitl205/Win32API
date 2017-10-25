@@ -2,7 +2,7 @@
 ============================================================================
 Name        : Easy
 Author      : Pakon Ruchirekserikun
-Version     : 
+Version     :
 Copyright   : Your copyright notice
 Description : Easy.cpp
 ============================================================================
@@ -18,6 +18,7 @@ Description : Easy.cpp
 LPDIRECTDRAW7			dd = NULL;
 LPDIRECTDRAWSURFACE7	primary = NULL;
 
+LPDIRECTDRAWCLIPPER		clip = NULL;
 
 LPDIRECTDRAWSURFACE7 GetBmp(LPDIRECTDRAW7 directdraw, LPCTSTR filename)
 {
@@ -42,8 +43,8 @@ LPDIRECTDRAWSURFACE7 GetBmp(LPDIRECTDRAW7 directdraw, LPCTSTR filename)
 	ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
 	ddsd.dwWidth = surf_width;
 	ddsd.dwHeight = surf_height;
-	result = directdraw-> CreateSurface(&ddsd, &surf, NULL);
-	
+	result = directdraw->CreateSurface(&ddsd, &surf, NULL);
+
 	if (result != DD_OK)
 	{
 		DeleteObject(bit);
@@ -54,7 +55,7 @@ LPDIRECTDRAWSURFACE7 GetBmp(LPDIRECTDRAW7 directdraw, LPCTSTR filename)
 		surf->GetDC(&hdc);
 		HDC bit_dc = CreateCompatibleDC(hdc);
 		SelectObject(bit_dc, bit);
-		BitBlt(hdc, 0, 0, surf_width,surf_height, bit_dc,0,0,SRCCOPY);
+		BitBlt(hdc, 0, 0, surf_width, surf_height, bit_dc, 0, 0, SRCCOPY);
 		surf->ReleaseDC(hdc);
 		DeleteObject(bit_dc);
 	}
@@ -65,20 +66,23 @@ LRESULT CALLBACK WindowsProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
-		case WM_PAINT:
-		{
+	case WM_PAINT:
+	{
 
-		}break;
+	}break;
 
-		case WM_DESTROY:
-		{
-			primary->Release();
-			primary = NULL;
-			dd->Release();
-			dd = NULL;
+	case WM_DESTROY:
+	{
+		primary->Release();
+		primary = NULL;
+		dd->Release();
+		dd = NULL;
 
-			PostQuitMessage(0);
-		}break;
+		clip->Release();
+		clip = NULL;
+
+		PostQuitMessage(0);
+	}break;
 	}
 	return(DefWindowProc(hwnd, msg, wparam, lparam));
 }
@@ -123,6 +127,9 @@ int WINAPI WinMain(HINSTANCE hinstance, HINSTANCE hprevinstance, LPSTR lpcmdline
 	surf.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
 
 	dd->CreateSurface(&surf, &primary, NULL);
+	dd->CreateClipper(NULL, &clip, NULL);
+	clip->SetHWnd(0, hwnd);
+	primary->SetClipper(clip);
 
 	// PrimarySurface
 
